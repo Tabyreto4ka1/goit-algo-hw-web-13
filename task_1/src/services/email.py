@@ -1,10 +1,12 @@
 from pathlib import Path
 
+from fastapi import HTTPException, status
 from fastapi_mail import FastMail, MessageSchema, ConnectionConfig, MessageType
 from fastapi_mail.errors import ConnectionErrors
 from pydantic import EmailStr
 from  src.conf.config import settings
 from src.services.auth import auth_service
+from src.repository.users import get_user_by_email
 
 conf = ConnectionConfig(
     MAIL_USERNAME=settings.mail_username,
@@ -22,7 +24,10 @@ conf = ConnectionConfig(
 
 
 
-async def send_email(email: EmailStr, username: str, host: str):
+async def send_email(email: EmailStr, username: str, host: str, db):
+    user=await get_user_by_email(email,db)
+    if not user:
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid email")
     try:
         token_verification = auth_service.create_email_token({"sub": email})
         message = MessageSchema(

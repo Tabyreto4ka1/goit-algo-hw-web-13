@@ -25,19 +25,15 @@ LOGIN_URL = 'users:login'
 LOGIN_REDIRECT_URL = 'quotes:main'
 LOGOUT_REDIRECT_URL = 'quotes:main'
 
-MAILERS = {
-    "default": {
-        "BACKEND": "django.core.mail.backends.smtp.EmailBackend",
-        "OPTIONS": {
-            "host": settings.email_host,
-            "port": settings.email_port,
-            "username": settings.email_host_user,
-            "password": settings.email_host_password,
-            "use_ssl": True,
-            "use_tls": False,
-        },
-    },
-}
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+
+EMAIL_HOST = settings.email_host
+EMAIL_PORT = settings.email_port
+EMAIL_HOST_USER = settings.email_host_user
+EMAIL_HOST_PASSWORD = settings.email_host_password
+
+EMAIL_USE_SSL = True
+EMAIL_USE_TLS = False
 
 DEFAULT_FROM_EMAIL = settings.email_host_user
 

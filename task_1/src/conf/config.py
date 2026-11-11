@@ -5,6 +5,7 @@ class Settings(BaseSettings):
     postgres_user:str
     postgres_password:int
     postgres_port:int
+    postgres_host:str
     sqlalchemy_database_url: str
     secret_key: str
     algorithm: str
